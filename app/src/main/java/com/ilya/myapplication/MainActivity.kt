@@ -28,7 +28,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -45,7 +44,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun card(content: @Composable ColumnScope.() -> Unit) {
     Card(
-        elevation = CardDefaults.cardElevation(5.dp),
+        elevation = CardDefaults.cardElevation(20.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Black, contentColor = Color.White),
         shape = RoundedCornerShape(15.dp),
         modifier = Modifier
@@ -58,7 +57,10 @@ fun card(content: @Composable ColumnScope.() -> Unit) {
 
 @Composable
 fun cardScreen(cardNumber: String, name: String, validityPeriod: String, producer: String, cvv: String) {
+    val defaultButtonText = "Показать CVV"
+    
     var showFront by remember { mutableStateOf(true) }
+    var buttonText by remember { mutableStateOf("Показать CVV") }
     
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -69,12 +71,13 @@ fun cardScreen(cardNumber: String, name: String, validityPeriod: String, produce
         Button(
             colors = ButtonDefaults.buttonColors(containerColor = Color.Gray),
             onClick = {
-                showFront = when (showFront) {
-                    true -> false
-                    else -> true
+                showFront = !showFront
+                buttonText = when(buttonText) {
+                    defaultButtonText -> "Показать переднюю сторону"
+                    else -> defaultButtonText
                 }
             }) {
-            Text(text = "Показать CVV")
+            Text(text = buttonText)
         }
     }
 }
