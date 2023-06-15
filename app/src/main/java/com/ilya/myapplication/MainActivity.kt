@@ -36,13 +36,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            cardScreen("1234 2345 3456 4567", "ILYA ZHILENKOW" , "05/30" , "VISA", "123")
+            CardScreen("1234 2345 3456 4567", "ILYA ZHILENKOW" , "05/30" , "VISA", "123")
         }
     }
 }
 
 @Composable
-fun card(content: @Composable ColumnScope.() -> Unit) {
+fun CardLayout(content: @Composable ColumnScope.() -> Unit) {
     Card(
         elevation = CardDefaults.cardElevation(20.dp),
         colors = CardDefaults.cardColors(containerColor = Color.Black, contentColor = Color.White),
@@ -56,7 +56,7 @@ fun card(content: @Composable ColumnScope.() -> Unit) {
 }
 
 @Composable
-fun cardScreen(cardNumber: String, name: String, validityPeriod: String, producer: String, cvv: String) {
+fun CardScreen(cardNumber: String, name: String, validityPeriod: String, producer: String, cvv: String) {
     val defaultButtonText = "Показать CVV"
     
     var showFront by remember { mutableStateOf(true) }
@@ -67,7 +67,7 @@ fun cardScreen(cardNumber: String, name: String, validityPeriod: String, produce
         verticalArrangement = Arrangement.SpaceAround,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        bankCard(cardNumber, name, validityPeriod, producer, cvv, showFront)
+        BankCard(cardNumber, name, validityPeriod, producer, cvv, showFront)
         Button(
             colors = ButtonDefaults.buttonColors(containerColor = Color.Gray),
             onClick = {
@@ -83,17 +83,17 @@ fun cardScreen(cardNumber: String, name: String, validityPeriod: String, produce
 }
 
 @Composable
-fun bankCard(cardNumber: String, name: String, validityPeriod: String, producer: String, cvv: String, showFront: Boolean) {
+fun BankCard(cardNumber: String, name: String, validityPeriod: String, producer: String, cvv: String, showFront: Boolean) {
     if (showFront) {
-        frontOfBankCard(cardNumber, name, validityPeriod, producer)
+        FrontOfBankCard(cardNumber, name, validityPeriod, producer)
     } else {
-        backOfBankCard(cvv)
+        BackOfBankCard(cvv)
     }
 }
 
 @Composable
-fun backOfBankCard(cvv: String) {
-    card {
+fun BackOfBankCard(cvv: String) {
+    CardLayout {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center,
@@ -105,8 +105,8 @@ fun backOfBankCard(cvv: String) {
 }
 
 @Composable
-fun frontOfBankCard(cardNumber: String, name: String, validityPeriod: String, producer: String) {
-    card {
+fun FrontOfBankCard(cardNumber: String, name: String, validityPeriod: String, producer: String) {
+    CardLayout {
         Column(
             modifier = Modifier.padding(20.dp)
         ) {
@@ -140,7 +140,6 @@ fun frontOfBankCard(cardNumber: String, name: String, validityPeriod: String, pr
                     }
                 }
             }
-            
         }
     }
 }
